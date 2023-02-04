@@ -9,8 +9,9 @@ parser.add_argument("--net", type=str, help="The network interface name", defaul
 
 parser_tx = subparsers.add_parser("tx", help="Transmit mode")
 parser_tx.add_argument("--input", type=str, help="GStreamer audio source string", default="autoaudiosrc")
+parser_tx.add_argument("--desc", type=str, help="Channel Description", default="autoaudiosrc")
 
-parser_rx = subparsers.add_parser("rx", help="Transmit mode")
+parser_rx = subparsers.add_parser("rx", help="Receive mode")
 parser_rx.add_argument("--output", type=str, help="GStreamer audio sink string", default="autoaudiosink")
 
 args = parser.parse_args()

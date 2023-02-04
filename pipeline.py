@@ -1,5 +1,6 @@
 import gi
 import sys
+import traceback
 import threading
 
 gi.require_version('Gst', '1.0')
@@ -7,7 +8,8 @@ gi.require_version('GstNet', '1.0')
 
 from gi.repository import Gst, GstNet, GObject, GLib
 
-Gst.init()
+Gst.init(None)
+GObject.threads_init()
 
 class Pipeline(threading.Thread):
 	def __init__(self, options):
@@ -22,7 +24,7 @@ class Pipeline(threading.Thread):
 			raise Exception("Could not initialise PTP")
 
 		self.clock = GstNet.PtpClock.new('PTP-Master', 0)
-		self.clock.wait_for_sync(Gst.CLOCK_TIME_NONE)
+		self.clock.wait_for_sync(Gst.SECOND * 1)
 
 	def reset_time(self):
 		self.pipeline.set_start_time(Gst.CLOCK_TIME_NONE)

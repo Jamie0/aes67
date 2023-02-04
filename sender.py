@@ -1,5 +1,6 @@
 import pipeline
 from gi.repository import Gst
+from sap import SAP
 
 class Sender(pipeline.Pipeline):
 	def make_pipeline(self):
@@ -10,6 +11,9 @@ class Sender(pipeline.Pipeline):
 			"udpsink host=%s port=5004 qos=true qos-dscp=34 multicast-iface=%s" % (self.options.host, self.options.net))
 
 		self.pipeline = Gst.parse_launch(launch)
+
+		self.sap = SAP(self.options)
+		self.sap.start()
 
 	def activate(self):
 		self.pipeline.get_by_name('rtppay').set_property('timestamp-offset', self.get_rtp_offset())
